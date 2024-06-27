@@ -22,7 +22,7 @@ class ActivityLog(models.Model):
     car = models.ForeignKey(Car, on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     get_time = models.DateTimeField(auto_now_add=True)
-    return_time = models.DateTimeField(blank=True)
+    return_time = models.DateTimeField(blank=True, null=True)
     travel_start_point = models.TextField(blank=True)
     travel_target_point = models.TextField(blank=True)
     travel_mileage = models.FloatField(default=0.0, help_text='km.m')

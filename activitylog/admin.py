@@ -1,3 +1,10 @@
 from django.contrib import admin
+from .models import User, ActivityLog, Car
 
-# Register your models here.
+admin.site.register(User)
+admin.site.register(Car)
+# admin.site.register(ActivityLog)
+
+@admin.register(ActivityLog)
+class ActivityLog(admin.ModelAdmin):
+    list_display = ('car','user','get_time','return_time','travel_mileage')

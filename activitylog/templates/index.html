@@ -1,0 +1,28 @@
+{% extends "base_generic.html" %}
+
+{% block title %} Cars activity {% endblock %}
+
+{% block content %}
+<div>dfljondfjknlojklo</div>
+<div>dfljondfjknlojklo</div>
+<div>dfljondfjknlojklo</div>
+<div>dfljondfjknlojklo</div>
+<div>{{cars}}</div>
+{% for car in cars %}
+  <div>{{car.name}}</div>
+  <div>{{car.busy}}</div>
+  <div>{{car.all_mileage}}</div>
+{% empty %}
+  <div> none car </div>
+{% endfor %}
+
+<div>{{user}}</div>
+<div>{{activitylogs}}</div>
+{% for activitylog in activitylogs %}
+  <div>{{activitylog.car}}</div>
+  <div>{{activitylog.user}}</div>
+  <div>{{activitylog.get_time}}</div>
+{% empty %}
+  <div> none car </div>
+{% endfor %}
+{% endblock %}

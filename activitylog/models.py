@@ -1,15 +1,7 @@
 from django.db import models
-import datetime
+from django.contrib.auth.models import AbstractBaseUser
 
-class Car(models.Model):
-    name = models.CharField(max_length=200, unique=True)
-    all_mileage = models.FloatField(default=0.0, help_text='km.m')
-    busy = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.name
-
-class User(models.Model):
+class User(AbstractBaseUser):
     email = models.CharField(max_length=200, unique=True)
     login = models.CharField(max_length=200, unique=True)
     password = models.CharField(max_length=200) 
@@ -17,10 +9,17 @@ class User(models.Model):
     def __str__(self):
         return self.login
 
+class Car(models.Model):
+    name = models.CharField(max_length=200, unique=True)
+    all_mileage = models.FloatField(default=0.0, help_text='km.m')
+    busy = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 class ActivityLog(models.Model):
     car = models.ForeignKey(Car, on_delete=models.SET_NULL, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     get_time = models.DateTimeField(auto_now_add=True)
     return_time = models.DateTimeField(blank=True, null=True)
     travel_start_point = models.TextField(blank=True)

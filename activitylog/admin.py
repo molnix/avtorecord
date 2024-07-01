@@ -7,4 +7,4 @@ admin.site.register(Car)
 
 @admin.register(ActivityLog)
 class ActivityLog(admin.ModelAdmin):
-    list_display = ('car','user','get_time','return_time','travel_mileage')
+    list_display = ('car','get_time','return_time','travel_mileage')

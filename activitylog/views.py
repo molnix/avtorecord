@@ -4,9 +4,10 @@ from django.shortcuts import redirect
 from django.views import generic
 from .models import ActivityLog, User, Car
 from .forms import *
+from datetime import datetime
 
 def index(request):
-    cars = Car.objects.filter(busy=False)
+    cars = Car.objects.all()
     activitylogs = ActivityLog.objects.all()
 
     return render(
@@ -92,4 +93,24 @@ def user_car_registr(request):
         user_car.user = user
         user_car.car = car
         user_car.save()
+    return redirect('activitylog')
+
+def user_create_activitylog(request):
+    if request.method == "POST":
+        activitylog = ActivityLog()
+        usercar = UserCar.objects.get(car = int(request.POST.get("usercar")), user = request.user.id)
+        car = Car.objects.get(id = int(request.POST.get("usercar")))
+        car.busy = True
+        car.save()
+        activitylog.user_car = usercar
+        activitylog.travel_target_point = request.POST.get("travel_target_point")
+        print(car)
+        activitylog.save()
+    return redirect('activitylog')
+
+def user_update_activitylog(request):
+    if request.method == "GET":
+        activitylog = ActivityLog.objects.get(id = int(request.GET.get("id")))
+        activitylog.return_time = datetime.now()
+        activitylog.save()
     return redirect('activitylog')

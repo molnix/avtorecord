@@ -48,6 +48,15 @@
     minmax(150px, 1fr) 
     minmax(150px, 1fr);
 }
+.activitylogs-table{
+    grid-template-columns: 
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr) 
+    minmax(150px, 1fr) 
+    minmax(150px, 1fr) 
+    minmax(150px, 1fr);
+}
 .users-table{
     grid-template-columns: 
     minmax(150px, 1fr)

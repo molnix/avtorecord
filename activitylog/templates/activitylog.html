@@ -3,9 +3,10 @@
 {% block title %} Журнал активности {% endblock %}
 
 {% block content %}
+
 {% if user.is_superuser %}
 <div class="registr-form">
-    <h1 class="main-header">Регистрация машины на водителя:</h1>
+    <h2 >Регистрация машины на водителя:</h2>
     <form method="post" action="{% url 'user_car_registr' %}">
         {% csrf_token %}
         <p>
@@ -87,6 +88,28 @@
 
 {% else %}
 
+<div class="create-log-form">
+    <h1 class="main-header">Регистрация выезда в журнале</h1>
+    <form method="post" action="{% url 'user_create_activitylog' %}">
+        {% csrf_token %}
+        
+        <p>
+            <label for="id_usercar">Выберите машину</label>
+            <select name="usercar" id="id_usercar">
+                {% for usercar in user_cars %}
+                    <option value="{{usercar.id}}">{{usercar}}</option>
+                {% endfor %}
+            </select>
+        </p>
+        
+        <p>
+            <label for="travel_target_point">Точка назначения</label>
+            <input type="text" name="travel_target_point" id="travel_target_point">
+        </p>
+        <input type="submit" value="Подтвердить">
+    </form>
+</div>
+
 <div class="users_cars-info">
     <h3>Доступные машины</h3>
     <table class="grid-table user_cars-table">
@@ -114,7 +137,7 @@
 
 <div class="logs-info">
     <h3>Журнал активности</h3>
-    <table class="grid-table logs-table">
+    <table class="grid-table activitylogs-table">
       <thead>
         <tr>
           <th>Водитель и машина</th>
@@ -122,8 +145,8 @@
           <th>Время выезда</th>
           <th>Время возвращения</th>
           <th>Пробег автомобиля за поездку км</th>
+          <th>Закончить поездку</th>
         </tr>
-        
       </thead>
       {% if user_logs %}
       <tbody>
@@ -134,6 +157,7 @@
           <td>{{user_log.get_time}}</td>
           <td>{{user_log.return_time}}</td>
           <td>{{user_log.travel_mileage}}</td>
+          <td>{% if user_log.return_time == None %}<a href="{% url 'user_update_activitylog' %}?id={{user_log.id}}">Закончить поездку</a> {% endif %}</td>
         </tr>
         {% endfor %}
       </tbody>

@@ -29,7 +29,7 @@
         <td>{{car.name}}</td>
         <td>{{car.car_number}}</td>
         <td>{{car.all_mileage}}</td>
-        <td>{% if car.is_busy %} Да {% else %} Нет {% endif %}</td>
+        <td>{% if car.busy %} Да {% else %} Нет {% endif %}</td>
       </tr>
       {% endfor %}
     </tbody>

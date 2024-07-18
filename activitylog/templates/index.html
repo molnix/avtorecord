@@ -1,0 +1,72 @@
+{% extends "base_generic.html" %}
+
+{% block title %} Главная {% endblock %}
+
+{% block content %}
+<h1 class="main-header">Главная страница</h1>
+
+<div class="user-info">
+  <h3>Вы вошли как:</h3>
+  <div>{{user}} / {{user.first_name}} / {{user.second_name}}</div>
+</div>
+
+<div class="cars-info">
+  <h3>Машины:</h3>
+  <table class="grid-table cars-table">
+    <thead>
+      <tr>
+        <th>Название машины</th>
+        <th>Гос. номер</th>
+        <th>Пробег</th>
+        <th>В работе</th>
+      </tr>
+      
+    </thead>
+    {% if cars %}
+    <tbody>
+      {% for car in cars %}
+      <tr>
+        <td>{{car.name}}</td>
+        <td>{{car.car_number}}</td>
+        <td>{{car.all_mileage}}</td>
+        <td>{% if car.is_busy %} Да {% else %} Нет {% endif %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    {% else %}
+      <div>None cars</div>
+    {% endif %}
+  </table>
+</div>
+
+<div class="logs-info">
+  <h3>Журнал активности:</h3>
+  <table class="grid-table logs-table">
+    <thead>
+      <tr>
+        <th>Водитель и машина</th>
+        <th>Точка назначения</th>
+        <th>Время выезда</th>
+        <th>Время возвращения</th>
+        <th>Пробег автомобиля за поездку км</th>
+      </tr>
+      
+    </thead>
+    {% if activitylogs %}
+    <tbody>
+      {% for activitylog in activitylogs %}
+      <tr>
+        <td>{{activitylog.user_car}}</td>
+        <td>{{activitylog.travel_target_point}}</td>
+        <td>{{activitylog.get_time}}</td>
+        <td>{{activitylog.return_time}}</td>
+        <td>{{activitylog.travel_mileage}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    {% else %}
+      <div>None logs</div>
+    {% endif %}
+  </table>
+</div>
+{% endblock %}

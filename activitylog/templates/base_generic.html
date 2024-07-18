@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>{% block title %} Base Generic {% endblock %}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Добавление дополнительного статического CSS файла -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  </head>
+
+  <body class="body">
+    <header class="header">
+      <nav class="nav">
+        {% block sidebar %}
+          <ul class="sidebar-nav">
+            <li><a href="{% url 'index' %}">Главная</a></li>
+            {% if user.is_authenticated %}
+              <li><a href="{% url 'activitylog' %}">Журнал активности</a></li>
+              {% if user.is_superuser %}
+                <li><a href="{% url 'cars' %}">Машины</a></li>
+                <li><a href="{% url 'register' %}">Пользователи</a></li>
+              {% endif %}
+              <li><a href="{% url 'logout' %}">Выйти</a></li>
+            {% else %}
+              <li><a href="{% url 'login' %}">Войти</a></li>
+            {% endif %}
+          </ul>
+        {% endblock %}
+      </nav>
+    </header>
+    <main class="main">
+      <div class="content">{% block content %}{% endblock %}</div>
+    </main>
+  </body>
+</html>

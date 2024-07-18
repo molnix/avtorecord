@@ -1,0 +1,43 @@
+{% extends "base_generic.html" %}
+
+{% block title %} Машины {% endblock %}
+
+{% block content %}
+<div class="car-registr">
+    <h1 class="main-header">Регистрация машины:</h1>
+    <form method="post" action="{% url 'cars' %}">
+        {% csrf_token %}
+        {{CarForm.as_p}}
+        <input type="submit" value="Подтвердить">
+    </form>
+</div>
+
+<div class="cars-info">
+    <h3>Машины:</h3>
+    <table class="grid-table cars-table">
+      <thead>
+        <tr>
+          <th>Название машины</th>
+          <th>Гос. номер</th>
+          <th>Пробег</th>
+          <th>В работе</th>
+        </tr>
+        
+      </thead>
+      {% if cars %}
+      <tbody>
+        {% for car in cars %}
+        <tr>
+          <td>{{car.name}}</td>
+          <td>{{car.car_number}}</td>
+          <td>{{car.all_mileage}}</td>
+          <td>{% if car.is_busy %} Да {% else %} Нет {% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      {% else %}
+        <div>None cars</div>
+      {% endif %}
+    </table>
+  </div>
+{% endblock %}

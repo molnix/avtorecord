@@ -1,0 +1,149 @@
+{% extends "base_generic.html" %}
+
+{% block title %} Журнал активности {% endblock %}
+
+{% block content %}
+{% if user.is_superuser %}
+<div class="registr-form">
+    <h1 class="main-header">Регистрация машины на водителя:</h1>
+    <form method="post" action="{% url 'user_car_registr' %}">
+        {% csrf_token %}
+        <p>
+            <label for="id_user">Выберите водителя</label>
+            <select name="user" required id="id_user">
+                {% for user in users %}
+                <option value="{{user.id}}">{{user.login}}</option>
+                {% endfor %}
+            </select>
+        </p>
+        <p>
+            <label for="id_car">Выберите машину</label>
+            <select name="car" required id="id_car">
+                {% for car in cars %}
+                <option value="{{car.id}}">{{car.name}}</option>
+                {% endfor %}
+            </select>
+        </p>
+        <input type="submit" value="Подтвердить">
+    </form>
+</div>
+
+
+<div class="users_cars-info">
+    <h3>Водители и машины</h3>
+    <table class="grid-table users_cars-table">
+      <thead>
+        <tr>
+          <th>Водитель</th>
+          <th>Машина</th>
+        </tr>
+        
+      </thead>
+      {% if userscars %}
+      <tbody>
+        {% for usercar in userscars %}
+        <tr>
+          <td>{{usercar.user.login}}</td>
+          <td>{{usercar.car.name}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      {% else %}
+        <div>None usercars</div>
+      {% endif %}
+    </table>
+</div>
+
+<div class="logs-info">
+    <h3>Журнал активности</h3>
+    <table class="grid-table logs-table">
+      <thead>
+        <tr>
+          <th>Водитель и машина</th>
+          <th>Точка назначения</th>
+          <th>Время выезда</th>
+          <th>Время возвращения</th>
+          <th>Пробег автомобиля за поездку км</th>
+        </tr>
+        
+      </thead>
+      {% if activitylogs %}
+      <tbody>
+        {% for activitylog in activitylogs %}
+        <tr>
+          <td>{{activitylog.user_car}}</td>
+          <td>{{activitylog.travel_target_point}}</td>
+          <td>{{activitylog.get_time}}</td>
+          <td>{{activitylog.return_time}}</td>
+          <td>{{activitylog.travel_mileage}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      {% else %}
+        <div>None logs</div>
+      {% endif %}
+    </table>
+</div>
+
+{% else %}
+
+<div class="users_cars-info">
+    <h3>Доступные машины</h3>
+    <table class="grid-table user_cars-table">
+      <thead>
+        <tr>
+          <th>Водитель</th>
+          <th>Машина</th>
+        </tr>
+        
+      </thead>
+      {% if user_cars %}
+      <tbody>
+        {% for user_car in user_cars %}
+        <tr>
+          <td>{{user_car.user.login}}</td>
+          <td>{{user_car.car.name}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      {% else %}
+        <div>None usercars</div>
+      {% endif %}
+    </table>
+</div>
+
+<div class="logs-info">
+    <h3>Журнал активности</h3>
+    <table class="grid-table logs-table">
+      <thead>
+        <tr>
+          <th>Водитель и машина</th>
+          <th>Точка назначения</th>
+          <th>Время выезда</th>
+          <th>Время возвращения</th>
+          <th>Пробег автомобиля за поездку км</th>
+        </tr>
+        
+      </thead>
+      {% if user_logs %}
+      <tbody>
+        {% for user_log in user_logs %}
+        <tr>
+          <td>{{user_log.user_car}}</td>
+          <td>{{user_log.travel_target_point}}</td>
+          <td>{{user_log.get_time}}</td>
+          <td>{{user_log.return_time}}</td>
+          <td>{{user_log.travel_mileage}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      {% else %}
+        <div>None logs</div>
+      {% endif %}
+    </table>
+</div>
+
+{% endif %}
+
+
+{% endblock %}

@@ -98,13 +98,13 @@ def user_car_registr(request):
 def user_create_activitylog(request):
     if request.method == "POST":
         activitylog = ActivityLog()
-        usercar = UserCar.objects.get(car = int(request.POST.get("usercar")), user = request.user.id)
-        car = Car.objects.get(id = int(request.POST.get("usercar")))
+        usercar = UserCar.objects.get(id = int(request.POST.get("usercar")))
+        print(request.POST.get("usercar"))
+        car = Car.objects.get(id = usercar.car.id)
         car.busy = True
         car.save()
         activitylog.user_car = usercar
         activitylog.travel_target_point = request.POST.get("travel_target_point")
-        print(car)
         activitylog.save()
     return redirect('activitylog')
 

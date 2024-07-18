@@ -4,12 +4,12 @@
 
 {% block content %}
 <h1 class="main-header">Главная страница</h1>
-
+{% if user.is_authenticated %}
 <div class="user-info">
   <h3>Вы вошли как:</h3>
-  <div>{{user}} / {{user.first_name}} / {{user.second_name}}</div>
+  <div><h3>{{user}} | {{user.first_name}}  {{user.second_name}}</h3></div>
 </div>
-
+{% endif %}
 <div class="cars-info">
   <h3>Машины:</h3>
   <table class="grid-table cars-table">
